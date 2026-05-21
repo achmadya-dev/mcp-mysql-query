@@ -1,26 +1,26 @@
-# mcp-mysql-ts
+# mcp-mysql-typescript
 
-Server [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) untuk MySQL. Tool `mysql_query` memungkinkan klien MCP (misalnya Cursor) menjalankan **satu** pernyataan SQL setiap kali dipanggil.
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for MySQL. The `mysql_query` tool lets MCP clients (e.g. Cursor) run **one** SQL statement per invocation.
 
-**Mode bawaan: hanya baca (read-only).** Perintah seperti `INSERT`, `UPDATE`, `DELETE`, dan DDL tidak akan dijalankan kecuali Anda mengaktifkan variabel lingkungan khusus (lihat bagian di bawah).
+**Default mode: read-only.** Commands such as `INSERT`, `UPDATE`, `DELETE`, and DDL are not executed unless you enable the corresponding environment variables (see below).
 
-## Persyaratan
+## Requirements
 
 - Node.js **≥ 20**
 
-Komunikasi memakai **stdio** (bukan HTTP). Kredensial dan opsi MySQL diatur lewat variabel lingkungan pada konfigurasi MCP (`env`) atau di sistem.
+Communication uses **stdio** (not HTTP). MySQL credentials and options are set via environment variables in your MCP configuration (`env`) or on the system.
 
-## Instalasi di Cursor
+## Install in Cursor
 
-1. Buka **Settings → MCP**, atau edit file `mcp.json` untuk akun Cursor Anda.
-2. Tambahkan entri server seperti contoh berikut. Perintah `npx -y` akan mengambil paket dari npm registry lalu menjalankannya (tanpa instal global).
+1. Open **Settings → MCP**, or edit the `mcp.json` file for your Cursor account.
+2. Add a server entry like the example below. The `npx -y` command fetches the package from the npm registry and runs it (no global install required).
 
 ```json
 {
   "mcpServers": {
     "mysql": {
       "command": "npx",
-      "args": ["-y", "mcp-mysql-ts"],
+      "args": ["-y", "mcp-mysql-typescript"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
         "MYSQL_USER": "root",
@@ -31,26 +31,26 @@ Komunikasi memakai **stdio** (bukan HTTP). Kredensial dan opsi MySQL diatur lewa
 }
 ```
 
-Sesuaikan nilai `env` dengan server MySQL Anda.
+Adjust the `env` values to match your MySQL server.
 
-## Manual dari clone repository
+## Manual setup from a cloned repository
 
-Clone repositori, pasang dependensi, lalu build:
+Clone the repository, install dependencies, then build:
 
 ```bash
-git clone <url-repo> mcp-mysql-ts
-cd mcp-mysql-ts
+git clone <repo-url> mcp-mysql-typescript
+cd mcp-mysql-typescript
 pnpm install && pnpm run build
 ```
 
-Setelah itu, daftarkan server MCP dengan **`node`** dan **path absolut** ke file `dist/index.js` di folder proyek Anda:
+Then register the MCP server with **`node`** and the **absolute path** to `dist/index.js` in your project folder:
 
 ```json
 {
   "mcpServers": {
     "mysql": {
       "command": "node",
-      "args": ["C:/Users/Username/proyek/mcp-mysql-ts/dist/index.js"],
+      "args": ["C:/Users/Username/projects/mcp-mysql-typescript/dist/index.js"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
         "MYSQL_USER": "root",
@@ -61,37 +61,37 @@ Setelah itu, daftarkan server MCP dengan **`node`** dan **path absolut** ke file
 }
 ```
 
-Ganti path di `args` sesuai lokasi clone. Setelah mengubah sumber TypeScript, jalankan lagi `pnpm run build`.
+Replace the path in `args` with your clone location. After changing TypeScript sources, run `pnpm run build` again.
 
-## Variabel lingkungan
+## Environment variables
 
-### Koneksi
+### Connection
 
-| Variabel | Default | Keterangan |
-|----------|---------|------------|
-| `MYSQL_HOST` | `127.0.0.1` | Host MySQL |
-| `MYSQL_PORT` | `3306` | Port |
-| `MYSQL_USER` | `root` | Nama pengguna |
-| `MYSQL_PASSWORD` | *(tidak diset = string kosong)* | Kata sandi |
-| `MYSQL_DATABASE` | *(opsional)* | Database yang dipilih setelah koneksi |
-| `MYSQL_MAX_ROWS` | `500` | Batas baris hasil `SELECT` yang ditampilkan |
+| Variable         | Default                    | Description                                      |
+| ---------------- | -------------------------- | ------------------------------------------------ |
+| `MYSQL_HOST`     | `127.0.0.1`                | MySQL host                                       |
+| `MYSQL_PORT`     | `3306`                     | Port                                             |
+| `MYSQL_USER`     | `root`                     | Username                                         |
+| `MYSQL_PASSWORD` | _(unset = empty string)_   | Password                                         |
+| `MYSQL_DATABASE` | _(optional)_               | Database selected after connect                  |
+| `MYSQL_MAX_ROWS` | `500`                      | Max rows returned for `SELECT` results           |
 
-### Mengizinkan operasi tulis
+### Allowing write operations
 
-Perintah **baca** (`SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, dan sejenisnya) selalu diperbolehkan.
+**Read** commands (`SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, and similar) are always allowed.
 
-Untuk mengizinkan **tulis** atau **DDL**, aktifkan jenis yang diinginkan dengan variabel berikut. Nilai yang dianggap aktif: `true`, `1`, `yes`, atau `on` (tidak case-sensitive).
+To allow **writes** or **DDL**, enable the desired types with the variables below. Values treated as enabled: `true`, `1`, `yes`, or `on` (case-insensitive).
 
-| Variabel | Mengizinkan |
-|----------|-------------|
-| `ALLOW_INSERT_OPERATION` | `INSERT` / `REPLACE` |
-| `ALLOW_UPDATE_OPERATION` | `UPDATE` |
-| `ALLOW_DELETE_OPERATION` | `DELETE` |
-| `ALLOW_DDL_OPERATION` | DDL (`CREATE`, `ALTER`, `DROP`, dll.) |
+| Variable                 | Allows                                |
+| ------------------------ | ------------------------------------- |
+| `ALLOW_INSERT_OPERATION` | `INSERT` / `REPLACE`                  |
+| `ALLOW_UPDATE_OPERATION` | `UPDATE`                              |
+| `ALLOW_DELETE_OPERATION` | `DELETE`                              |
+| `ALLOW_DDL_OPERATION`    | DDL (`CREATE`, `ALTER`, `DROP`, etc.) |
 
-Jika suatu variabel tidak diset, atau nilainya bukan salah satu di atas, jenis operasi itu tetap **ditolak** (tetap read-only untuk jenis tersebut).
+If a variable is unset, or its value is not one of the above, that operation type remains **rejected** (read-only for that type).
 
-## Perilaku lain
+## Other behavior
 
-- Satu permintaan hanya boleh berisi **satu** pernyataan SQL (tidak boleh beberapa perintah dipisah `;`).
-- Hasil `SELECT` ditampilkan sebagai teks berkolom; jumlah baris dibatasi oleh `MYSQL_MAX_ROWS`.
+- Each request must contain **one** SQL statement only (no multiple statements separated by `;`).
+- `SELECT` results are returned as columnar text; row count is capped by `MYSQL_MAX_ROWS`.

@@ -25,7 +25,6 @@ function envOptionalStr(name: string): string | undefined {
 
 let cached: MySQLConfig | null = null;
 
-/** Env ALLOW_* untuk tulis/DDL default `false` — hanya read (SELECT, SHOW, EXPLAIN, …) kecuali diaktifkan eksplisit. */
 export function loadConfig(): MySQLConfig {
   if (cached) return cached;
   cached = {
