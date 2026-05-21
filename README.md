@@ -23,8 +23,10 @@ Communication uses **stdio** (not HTTP). MySQL credentials and options are set v
       "args": ["-y", "@achmadya-dev/mcp-mysql-query"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306",
         "MYSQL_USER": "root",
-        "MYSQL_PASSWORD": "password"
+        "MYSQL_PASSWORD": "password",
+        "MYSQL_DATABASE": "mydb"
       }
     }
   }
@@ -53,8 +55,10 @@ Then register the MCP server with **`node`** and the **absolute path** to `dist/
       "args": ["C:/Users/Username/projects/mcp-mysql-query/dist/index.js"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306",
         "MYSQL_USER": "root",
-        "MYSQL_PASSWORD": "password"
+        "MYSQL_PASSWORD": "password",
+        "MYSQL_DATABASE": "mydb"
       }
     }
   }
