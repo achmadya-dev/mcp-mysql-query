@@ -1,4 +1,4 @@
-# mcp-mysql-typescript
+# mcp-mysql-query
 
 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for MySQL. The `mysql_query` tool lets MCP clients (e.g. Cursor) run **one** SQL statement per invocation.
 
@@ -20,7 +20,7 @@ Communication uses **stdio** (not HTTP). MySQL credentials and options are set v
   "mcpServers": {
     "mysql": {
       "command": "npx",
-      "args": ["-y", "@achmadya-dev/mcp-mysql-typescript"],
+      "args": ["-y", "@achmadya-dev/mcp-mysql-query"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
         "MYSQL_USER": "root",
@@ -38,8 +38,8 @@ Adjust the `env` values to match your MySQL server.
 Clone the repository, install dependencies, then build:
 
 ```bash
-git clone <repo-url> mcp-mysql-typescript
-cd mcp-mysql-typescript
+git clone <repo-url> mcp-mysql-query
+cd mcp-mysql-query
 pnpm install && pnpm run build
 ```
 
@@ -50,7 +50,7 @@ Then register the MCP server with **`node`** and the **absolute path** to `dist/
   "mcpServers": {
     "mysql": {
       "command": "node",
-      "args": ["C:/Users/Username/projects/mcp-mysql-typescript/dist/index.js"],
+      "args": ["C:/Users/Username/projects/mcp-mysql-query/dist/index.js"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
         "MYSQL_USER": "root",

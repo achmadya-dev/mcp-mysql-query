@@ -1,11 +1,16 @@
 {
-  "name": "@achmadya-dev/mcp-mysql-typescript",
+  "name": "@achmadya-dev/mcp-mysql-query",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "mcp-mysql-typescript": "./dist/index.js"
+    "mcp-mysql-query": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc",
