@@ -20,7 +20,7 @@ Communication uses **stdio** (not HTTP). MySQL credentials and options are set v
   "mcpServers": {
     "mysql": {
       "command": "npx",
-      "args": ["-y", "mcp-mysql-typescript"],
+      "args": ["-y", "@achmadya-dev/mcp-mysql-typescript"],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
         "MYSQL_USER": "root",
