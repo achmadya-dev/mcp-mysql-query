@@ -8,7 +8,6 @@ import {
   mysql_delete,
   mysql_ddl,
 } from "./mcp/registry.js";
-import config from "./mcp/mysql/config.js";
 
 async function main(): Promise<void> {
   const server = new Server({
@@ -17,10 +16,10 @@ async function main(): Promise<void> {
   });
 
   server.registerTool(mysql_select);
-  if (config.allowInsert) server.registerTool(mysql_insert);
-  if (config.allowUpdate) server.registerTool(mysql_update);
-  if (config.allowDelete) server.registerTool(mysql_delete);
-  if (config.allowDdl) server.registerTool(mysql_ddl);
+  server.registerTool(mysql_insert);
+  server.registerTool(mysql_update);
+  server.registerTool(mysql_delete);
+  server.registerTool(mysql_ddl);
 
   await server.start();
 }

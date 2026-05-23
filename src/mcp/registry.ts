@@ -5,6 +5,7 @@ import {
   mysqlQueryOutputShape,
   mysqlQueryResultSchema,
 } from "./mysql/schema.js";
+import config from "./mysql/config.js";
 
 export const mysql_select = defineTool({
   name: "mysql_select",
@@ -26,6 +27,7 @@ export const mysql_insert = defineTool({
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
+    if (!config.allowInsert) throw new ToolError("INSERT operation is disabled on this server. Set ALLOW_INSERT_OPERATION=true to enable it.");
     const query = safeQuery(sql, ["INSERT", "REPLACE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -40,6 +42,7 @@ export const mysql_update = defineTool({
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
+    if (!config.allowUpdate) throw new ToolError("UPDATE operation is disabled on this server. Set ALLOW_UPDATE_OPERATION=true to enable it.");
     const query = safeQuery(sql, ["UPDATE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -54,6 +57,7 @@ export const mysql_delete = defineTool({
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
+    if (!config.allowDelete) throw new ToolError("DELETE operation is disabled on this server. Set ALLOW_DELETE_OPERATION=true to enable it.");
     const query = safeQuery(sql, ["DELETE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -68,6 +72,7 @@ export const mysql_ddl = defineTool({
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
+    if (!config.allowDdl) throw new ToolError("DDL operation is disabled on this server. Set ALLOW_DDL_OPERATION=true to enable it.");
     const query = safeQuery(sql, ["CREATE", "ALTER", "DROP", "TRUNCATE", "RENAME", "GRANT", "REVOKE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
