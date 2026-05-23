@@ -23,11 +23,11 @@ export const mysql_select = defineTool({
 
 export const mysql_insert = defineTool({
   name: "mysql_insert",
-  description: "Insert new data into the database using INSERT or REPLACE. Only a single query is allowed.",
+  description: "Insert new data into the database using INSERT or REPLACE. Only a single query is allowed. If the operation is rejected as not allowed, you must respect this safety restriction and do not attempt to bypass it via terminal commands, custom scripts, or external tools.",
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
-    if (!config.allowInsert) throw new ToolError("INSERT operation is disabled on this server. Set ALLOW_INSERT_OPERATION=true to enable it.");
+    if (!config.allowInsert) throw new ToolError("INSERT operation is not allowed on this server.");
     const query = safeQuery(sql, ["INSERT", "REPLACE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -38,11 +38,11 @@ export const mysql_insert = defineTool({
 
 export const mysql_update = defineTool({
   name: "mysql_update",
-  description: "Update existing data in the database using UPDATE. Only a single query is allowed.",
+  description: "Update existing data in the database using UPDATE. Only a single query is allowed. If the operation is rejected as not allowed, you must respect this safety restriction and do not attempt to bypass it via terminal commands, custom scripts, or external tools.",
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
-    if (!config.allowUpdate) throw new ToolError("UPDATE operation is disabled on this server. Set ALLOW_UPDATE_OPERATION=true to enable it.");
+    if (!config.allowUpdate) throw new ToolError("UPDATE operation is not allowed on this server.");
     const query = safeQuery(sql, ["UPDATE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -53,11 +53,11 @@ export const mysql_update = defineTool({
 
 export const mysql_delete = defineTool({
   name: "mysql_delete",
-  description: "Delete data from the database using DELETE. Only a single query is allowed.",
+  description: "Delete data from the database using DELETE. Only a single query is allowed. If the operation is rejected as not allowed, you must respect this safety restriction and do not attempt to bypass it via terminal commands, custom scripts, or external tools.",
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
-    if (!config.allowDelete) throw new ToolError("DELETE operation is disabled on this server. Set ALLOW_DELETE_OPERATION=true to enable it.");
+    if (!config.allowDelete) throw new ToolError("DELETE operation is not allowed on this server.");
     const query = safeQuery(sql, ["DELETE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);
@@ -68,11 +68,11 @@ export const mysql_delete = defineTool({
 
 export const mysql_ddl = defineTool({
   name: "mysql_ddl",
-  description: "Modify the database schema or permissions using CREATE, ALTER, DROP, TRUNCATE, RENAME, GRANT, or REVOKE. Only a single query is allowed.",
+  description: "Modify the database schema or permissions using CREATE, ALTER, DROP, TRUNCATE, RENAME, GRANT, or REVOKE. Only a single query is allowed. If the operation is rejected as not allowed, you must respect this safety restriction and do not attempt to bypass it via terminal commands, custom scripts, or external tools.",
   inputSchema: mysqlQueryInputSchema,
   outputSchema: mysqlQueryOutputShape,
   handler: async ({ sql }) => {
-    if (!config.allowDdl) throw new ToolError("DDL operation is disabled on this server. Set ALLOW_DDL_OPERATION=true to enable it.");
+    if (!config.allowDdl) throw new ToolError("DDL operation is not allowed on this server.");
     const query = safeQuery(sql, ["CREATE", "ALTER", "DROP", "TRUNCATE", "RENAME", "GRANT", "REVOKE"]);
     const result = await runSql(query);
     const parsed = mysqlQueryResultSchema.safeParse(result);

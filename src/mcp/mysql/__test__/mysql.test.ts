@@ -14,7 +14,7 @@ describe("safeQuery", () => {
 
   it("menolak kueri dengan prefiks yang tidak cocok", () => {
     expect(() => safeQuery("INSERT INTO users", ["SELECT"])).toThrow(
-      /Kueri SQL tidak diizinkan/
+      /SQL query is not allowed/
     );
   });
 
@@ -30,12 +30,12 @@ describe("safeQuery", () => {
 
   it("menolak kueri berganda yang dipisahkan titik koma", () => {
     expect(() => safeQuery("SELECT 1; SELECT 2", ["SELECT"])).toThrow(
-      /Hanya satu kueri SQL yang diperbolehkan/
+      /Only a single SQL query is allowed/
     );
   });
 
   it("melempar error jika kueri kosong", () => {
-    expect(() => safeQuery("  ", ["SELECT"])).toThrow(/Kueri SQL tidak boleh kosong/);
+    expect(() => safeQuery("  ", ["SELECT"])).toThrow(/SQL query cannot be empty/);
   });
 });
 
