@@ -21,7 +21,7 @@ function envStr(name: string, defaultVal = ""): string {
 export default {
   host: envStr("MYSQL_HOST", "127.0.0.1"),
   port: envInt("MYSQL_PORT", 3306),
-  user: envStr("MYSQL_USER", "root"),
+  user: envStr("MYSQL_USER"),
   password: envStr("MYSQL_PASSWORD", ""),
   database: envStr("MYSQL_DATABASE") || undefined,
   maxRows: envInt("MYSQL_MAX_ROWS", 500),

@@ -75,7 +75,7 @@ Replace the path in `args` with your clone location. After changing TypeScript s
 | ---------------- | -------------------------- | ------------------------------------------------ |
 | `MYSQL_HOST`     | `127.0.0.1`                | MySQL host                                       |
 | `MYSQL_PORT`     | `3306`                     | Port                                             |
-| `MYSQL_USER`     | `root`                     | Username                                         |
+| `MYSQL_USER`     | _(unset = empty string)_   | Username                                         |
 | `MYSQL_PASSWORD` | _(unset = empty string)_   | Password                                         |
 | `MYSQL_DATABASE` | _(optional)_               | Database selected after connect                  |
 | `MYSQL_MAX_ROWS` | `500`                      | Max rows returned for `SELECT` results           |
