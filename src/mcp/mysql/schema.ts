@@ -12,11 +12,11 @@ export const mysqlQueryInputSchema = {
     .string()
     .check(
       z.trim(),
-      z.minLength(1, "SQL tidak boleh kosong"),
-      z.maxLength(100_000, "SQL terlalu panjang (maks. 100.000 karakter)")
+      z.minLength(1, "SQL cannot be empty"),
+      z.maxLength(100_000, "SQL is too long (max 100,000 characters)")
     )
     .describe(
-      "Satu pernyataan SQL. Tanpa CTE (WITH). Tidak boleh beberapa pernyataan dipisah ';'."
+      "A single SQL statement. Multiple statements separated by ';' are not allowed."
     ),
 } as const;
 
