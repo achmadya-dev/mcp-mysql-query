@@ -45,37 +45,32 @@ Or load credentials from a file (Cursor `envFile`):
 
 ## Develop from source
 
-From the repository root ([`achmadya-dev/mcp`](https://github.com/achmadya-dev/mcp)):
-
 ```bash
-cp .env.example .env
+git clone https://github.com/achmadya-dev/mcp-mysql-query.git
+cd mcp-mysql-query
 pnpm install
-docker compose up -d mysql
-pnpm --filter @achmadya-dev/mcp-mysql-query run build
+pnpm run build
+pnpm test
 ```
 
-Register the built server in `.cursor/mcp.json`:
+Open the repo root in Cursor. You need a reachable MySQL instance — set connection env in `.cursor/mcp.json` or via `envFile`:
 
 ```json
 {
   "mcpServers": {
     "mysql": {
       "command": "node",
-      "args": ["${workspaceFolder}/packages/mcp-mysql-query/dist/index.js"],
-      "envFile": "${workspaceFolder}/.env"
+      "args": ["${workspaceFolder}/dist/index.js"],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "your_user",
+        "MYSQL_PASSWORD": "your_password",
+        "MYSQL_DATABASE": "your_database"
+      }
     }
   }
 }
-```
-
-Relevant `.env` keys (defaults match `docker-compose.yml`):
-
-```env
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=dev
-MYSQL_PASSWORD=devpassword
-MYSQL_DATABASE=devdb
 ```
 
 ## Environment variables
