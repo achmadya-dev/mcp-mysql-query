@@ -13,9 +13,7 @@ describe("safeQuery", () => {
   });
 
   it("rejects queries with non-matching prefixes", () => {
-    expect(() => safeQuery("INSERT INTO users", ["SELECT"])).toThrow(
-      /SQL query is not allowed/
-    );
+    expect(() => safeQuery("INSERT INTO users", ["SELECT"])).toThrow(/SQL query is not allowed/);
   });
 
   it("allows a trailing semicolon on a single query", () => {
@@ -88,10 +86,12 @@ describe("safeQuery", () => {
 describe("runSql", () => {
   const mockExecute = jest.fn<() => Promise<unknown>>();
   const mockEnd = jest.fn<() => Promise<void>>();
-  const mockCreateConnection = jest.fn<() => Promise<{
-    execute: typeof mockExecute;
-    end: typeof mockEnd;
-  }>>();
+  const mockCreateConnection = jest.fn<
+    () => Promise<{
+      execute: typeof mockExecute;
+      end: typeof mockEnd;
+    }>
+  >();
 
   beforeEach(async () => {
     jest.resetModules();
@@ -126,10 +126,7 @@ describe("runSql", () => {
   });
 
   it("returns a result set and truncates rows according to maxRows", async () => {
-    mockExecute.mockResolvedValue([
-      [{ id: 1 }, { id: 2 }, { id: 3 }],
-      [{ name: "id" }],
-    ]);
+    mockExecute.mockResolvedValue([[{ id: 1 }, { id: 2 }, { id: 3 }], [{ name: "id" }]]);
 
     const { runSql } = await import("../mysql.js");
     const result = await runSql("SELECT id FROM users");

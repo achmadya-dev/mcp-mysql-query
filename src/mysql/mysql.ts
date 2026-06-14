@@ -1,10 +1,6 @@
 import mysql from "mysql2/promise";
-import { ToolError } from "../server.js";
-import type {
-  FieldPacket,
-  ResultSetHeader,
-  RowDataPacket,
-} from "mysql2/promise";
+import { ToolError } from "@achmadya-dev/mcp-core";
+import type { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import config from "./config.js";
 import * as helpers from "./helpers.js";
 
@@ -15,20 +11,22 @@ export function safeQuery(sql: string, allowedPrefixes: string[]): string {
   return statement;
 }
 
-export async function runSql(sql: string): Promise<{
-  kind: "resultset";
-  columns: string[];
-  rowCount: number;
-  totalRows: number;
-  truncated: boolean;
-  maxRows: number;
-  rows: RowDataPacket[];
-}
-| {
-  kind: "execute";
-  affectedRows: number;
-  insertId: string | null;
-}> {
+export async function runSql(sql: string): Promise<
+  | {
+      kind: "resultset";
+      columns: string[];
+      rowCount: number;
+      totalRows: number;
+      truncated: boolean;
+      maxRows: number;
+      rows: RowDataPacket[];
+    }
+  | {
+      kind: "execute";
+      affectedRows: number;
+      insertId: string | null;
+    }
+> {
   let conn;
   try {
     conn = await mysql.createConnection({
@@ -64,9 +62,7 @@ export async function runSql(sql: string): Promise<{
       insertId: id != null && Number(id) > 0 ? String(id) : null,
     };
   } catch (e) {
-    throw new ToolError(
-      `MySQL: ${e instanceof Error ? e.message : String(e)}`
-    );
+    throw new ToolError(`MySQL: ${e instanceof Error ? e.message : String(e)}`);
   } finally {
     if (conn) await conn.end();
   }

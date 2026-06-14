@@ -1,30 +1,14 @@
 #!/usr/bin/env node
-import { Server } from "./mcp/server.js";
+import { startMcpServer } from "@achmadya-dev/mcp-core";
 import packageJson from "../package.json" with { type: "json" };
-import {
-  mysql_select,
-  mysql_insert,
-  mysql_update,
-  mysql_delete,
-  mysql_ddl,
-} from "./mcp/registry.js";
+import { mysql_ddl } from "./tools/mysql_ddl.js";
+import { mysql_delete } from "./tools/mysql_delete.js";
+import { mysql_insert } from "./tools/mysql_insert.js";
+import { mysql_select } from "./tools/mysql_select.js";
+import { mysql_update } from "./tools/mysql_update.js";
 
-async function main(): Promise<void> {
-  const server = new Server({
-    name: "MySQL Database",
-    version: packageJson.version,
-  });
-
-  server.registerTool(mysql_select);
-  server.registerTool(mysql_insert);
-  server.registerTool(mysql_update);
-  server.registerTool(mysql_delete);
-  server.registerTool(mysql_ddl);
-
-  await server.start();
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
+await startMcpServer({
+  name: "MySQL Database",
+  version: packageJson.version,
+  tools: [mysql_select, mysql_insert, mysql_update, mysql_delete, mysql_ddl],
 });
