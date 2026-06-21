@@ -1,5 +1,11 @@
 # @achmadya-dev/mcp-mysql-query
 
+## 0.2.2
+
+### Patch Changes
+
+- b7f2b78: Bump @achmadya-dev/mcp-core to ^0.6.0 for tool result helpers and simplified registration API.
+
 ## 0.2.1
 
 ### Patch Changes
