@@ -2,6 +2,7 @@ import mysql from "mysql2/promise";
 import { ToolError } from "@achmadya-dev/mcp-core";
 import type { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import config from "./config.js";
+import { formatConnectionError } from "../connection-status.js";
 import * as helpers from "./helpers.js";
 
 export function safeQuery(sql: string, allowedPrefixes: string[]): string {
@@ -25,7 +26,7 @@ export async function checkConnection(): Promise<void> {
     });
     await conn.ping();
   } catch (e) {
-    throw new Error(`MySQL: ${e instanceof Error ? e.message : String(e)}`);
+    throw new Error(formatConnectionError("MySQL", e));
   } finally {
     if (conn) await conn.end();
   }
