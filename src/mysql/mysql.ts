@@ -11,6 +11,26 @@ export function safeQuery(sql: string, allowedPrefixes: string[]): string {
   return statement;
 }
 
+export async function checkConnection(): Promise<void> {
+  let conn;
+  try {
+    conn = await mysql.createConnection({
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database,
+      charset: "utf8mb4",
+      multipleStatements: false,
+    });
+    await conn.ping();
+  } catch (e) {
+    throw new Error(`MySQL: ${e instanceof Error ? e.message : String(e)}`);
+  } finally {
+    if (conn) await conn.end();
+  }
+}
+
 export async function runSql(sql: string): Promise<
   | {
       kind: "resultset";
