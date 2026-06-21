@@ -1,5 +1,11 @@
 # @achmadya-dev/mcp-mysql-query
 
+## 0.3.0
+
+### Minor Changes
+
+- 8f4451d: Check MySQL connection at startup and disable tools when the database is unreachable.
+
 ## 0.2.2
 
 ### Patch Changes
