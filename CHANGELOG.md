@@ -1,5 +1,11 @@
 # @achmadya-dev/mcp-mysql-query
 
+## 0.3.1
+
+### Patch Changes
+
+- 314cc58: Register a connection_status tool when startup health check fails, with clearer driver error messages.
+
 ## 0.3.0
 
 ### Minor Changes
