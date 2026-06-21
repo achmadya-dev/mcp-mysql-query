@@ -1,5 +1,11 @@
 # @achmadya-dev/mcp-mysql-query
 
+## 0.3.2
+
+### Patch Changes
+
+- 4d863be: Bump `@achmadya-dev/mcp-core` to ^0.8.0.
+
 ## 0.3.1
 
 ### Patch Changes
